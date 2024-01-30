@@ -2,6 +2,8 @@
 
 import { ListWithCards } from "@/types/types"
 import { ListForm } from "./list-form"
+import { useEffect, useState } from "react"
+import { ListItem } from "./list-item"
 
 interface ListContainterProps {
   data: ListWithCards[]
@@ -9,8 +11,17 @@ interface ListContainterProps {
 }
 
 export const ListContainer = ({ boardId, data }: ListContainterProps) => {
+  const [orderedData, setOrderedData] = useState(data)
+
+  useEffect(() => {
+    setOrderedData(data)
+  }, [data])
+
   return (
-    <ol>
+    <ol className="flex gap-x-3 h-full">
+      {orderedData.map((list, index) => {
+        return <ListItem key={list.id} index={index} data={list} />
+      })}
       <ListForm />
       <div className="flex-shrink-0 w-1" />
     </ol>
